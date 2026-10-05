@@ -34,14 +34,7 @@ python research_agent.py \
 The default model is `gemini-2.5-flash`, chosen for low-cost, fast generation
 and strong instruction following. Override it with `--model` if needed.
 
-Before adding the key, verify document loading and prompt construction:
-
-```bash
-python research_agent.py --ticker SRVCABLE --input-dir research_pack --dry-run
-```
-
-The dry-run validates loading and prompt construction. A real final brief
-requires `GEMINI_API_KEY`.
+A real final brief requires `GEMINI_API_KEY`.
 
 ## Design
 

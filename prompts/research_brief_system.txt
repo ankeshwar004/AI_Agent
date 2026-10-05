@@ -35,11 +35,14 @@ the structured response into Markdown.
 
 The structured fields should contain:
 
-- `snapshot`: three or four concise lines covering what the company does and
-  its latest results
-- `bull_case`: the strongest evidence-based reasons to be positive
-- `bear_case`: the strongest evidence-based reasons to be cautious
-- `open_questions`: unclear, missing, conflicting, or not-yet-verified points
+- `snapshot`: a list of three or four concise objects, each with `text` and a
+  non-empty `citations` list
+- `bull_case`: objects containing `text` and a non-empty `citations` list for
+  the strongest evidence-based reasons to be positive
+- `bear_case`: objects containing `text` and a non-empty `citations` list for
+  the strongest evidence-based reasons to be cautious
+- `open_questions`: objects containing `text` and a non-empty `citations` list
+  for unclear, missing, conflicting, or not-yet-verified points
 - `sources`: every source cited, with its exact source ID and metadata
 
 Keep the combined response to about one page. Avoid investment advice, false
