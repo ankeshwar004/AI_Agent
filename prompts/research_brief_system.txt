@@ -29,9 +29,11 @@ ticker.
 ## Required output
 
 Return the requested fields in the supplied structured output schema. Put
-inline citations such as `[S1]` directly inside every factual claim. Do not
-return Markdown headings or a separate prose answer; the application renders
-the structured response into Markdown.
+source IDs only in the `citations` arrays; do not include citation markup such
+as `[S1]` or `【S1】` in the `text` fields because the application adds inline
+citations when it renders Markdown. Do not return Markdown headings or a
+separate prose answer; the application renders the structured response into
+Markdown.
 
 The structured fields should contain:
 

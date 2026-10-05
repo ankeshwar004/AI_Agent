@@ -1,4 +1,4 @@
-"""Generate a grounded company research brief with LangGraph and Gemini."""
+"""Generate a grounded company research brief with LangGraph and Groq."""
 
 from __future__ import annotations
 
@@ -9,7 +9,6 @@ from typing import TypedDict
 from dotenv import load_dotenv
 
 from langchain_core.messages import HumanMessage, SystemMessage
-from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_groq import ChatGroq
 from langgraph.graph import END, START, StateGraph
 from pydantic import BaseModel, Field
@@ -32,7 +31,9 @@ VARIANT_INSTRUCTIONS = {
     "validated": (
         "Before writing, internally create a claim-to-source checklist. "
         "Only include claims with citations to supplied source IDs, explicitly "
-        "surface conflicts, and then produce the brief."
+        "surface conflicts, and then produce the brief. Put source IDs only "
+        "in the citations arrays; never add [S1]-style or 【S1】-style markup "
+        "to claim text."
     ),
 }
 
@@ -140,7 +141,7 @@ def render_markdown(brief: ResearchBrief) -> str:
 
 
 def build_research_graph():
-    """Create the LangGraph workflow that generates a Gemini research brief."""
+    """Create the LangGraph workflow that generates a Groq research brief."""
     def generate_brief(state: ResearchState) -> ResearchState:
         model = ChatGroq(
             model=state["model"],
@@ -216,6 +217,8 @@ def main() -> int:
     )
     brief = result["brief"]
     if args.output:
+        if not args.output.parent.exists():
+            args.output.parent.mkdir(parents=True)
         args.output.write_text(brief + "\n", encoding="utf-8")
     print(brief)
     return 0

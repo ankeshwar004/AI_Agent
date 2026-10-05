@@ -2,21 +2,21 @@
 
 This repository contains a small, evidence-grounded research agent for Indian
 stocks. It accepts an NSE ticker and a local folder of Markdown documents, then
-asks Google Gemini to produce a one-page Markdown research brief.
+asks a Groq-hosted model to produce a one-page Markdown research brief.
 
 ## Setup
 
-Python 3.10 or newer is required. Install the LangGraph and LangChain Gemini
+Python 3.10 or newer is required. Install the LangGraph and LangChain Groq
 integration:
 
 ```bash
 python -m pip install -r requirements.txt
 ```
 
-Add a Gemini API key when you are ready:
+Add a Groq API key when you are ready:
 
 ```bash
-export GEMINI_API_KEY="your-key"
+export GROQ_API_KEY="your-key"
 ```
 
 The key is read only from the environment and is not stored in the repository.
@@ -31,10 +31,11 @@ python research_agent.py \
   --output srvcable_brief.md
 ```
 
-The default model is `gemini-2.5-flash`, chosen for low-cost, fast generation
-and strong instruction following. Override it with `--model` if needed.
+The default model is `openai/gpt-oss-120b`, selected for structured-output
+support and strong instruction following on Groq. Override it with `--model`
+if needed.
 
-A real final brief requires `GEMINI_API_KEY`.
+A real final brief requires `GROQ_API_KEY`.
 
 ## Design
 
@@ -44,15 +45,14 @@ A real final brief requires `GEMINI_API_KEY`.
   standalone system prompt.
 - [research_agent.py](research_agent.py) builds a LangGraph workflow with a
   `generate_brief` function that uses LangChain's
-  `ChatGoogleGenerativeAI.with_structured_output(ResearchBrief)`.
+  `ChatGroq.with_structured_output(ResearchBrief)`.
 - The `baseline`, `evidence-aware`, and `validated` variants remain available
   for the three prompt-design experiments. They change process guidance, not
   the output schema.
 
 The prompt deliberately handles conflicting figures, irrelevant entities, weak
-promotional sources, and prompt injection inside a source document. Runtime
-dependency, API-key, and model-response error handling is intentionally omitted
-for this prototype.
+promotional sources, and prompt injection inside a source document. The
+prototype reports API and model errors directly rather than hiding them.
 
 ## Test log
 
