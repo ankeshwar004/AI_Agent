@@ -1,5 +1,3 @@
-"""Generate a grounded company research brief with LangGraph and Groq."""
-
 from __future__ import annotations
 
 import argparse
